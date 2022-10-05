@@ -6,7 +6,7 @@ import lombok.Value;
 import java.util.List;
 
 @Value
-@RequiredArgsConstructor
+@RequiredArgsConstructor(staticName = "of")
 public class Instruments {
 
     List<String> instruments;

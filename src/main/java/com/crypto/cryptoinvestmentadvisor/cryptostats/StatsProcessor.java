@@ -1,5 +1,7 @@
 package com.crypto.cryptoinvestmentadvisor.cryptostats;
 
+import com.crypto.cryptoinvestmentadvisor.cryptostats.dto.Measures;
+import com.crypto.cryptoinvestmentadvisor.cryptovalue.CryptoValue;
 import com.crypto.cryptoinvestmentadvisor.cryptovalue.CsvToCryptoValueMapper;
 import com.crypto.cryptoinvestmentadvisor.util.FileReader;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +29,26 @@ public class StatsProcessor {
                 .sorted(Comparator.comparing(StatsCalculator.MarketRange::getRange).reversed())
                 .map(StatsCalculator.MarketRange::getSymbol)
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Measures> getMeasures(String marketSymbol) {
+        List<CryptoValue> cryptoValues = CsvToCryptoValueMapper.map(
+                fileReader.readFile(marketSymbol + DATA_FILE_SUFFIX));
+
+        return StatsCalculator.findMaxPriceForMarket(cryptoValues)
+                .flatMap(maxMarketPrice ->
+                        StatsCalculator.findMinPriceForMarket(cryptoValues)
+                                .flatMap(minMarketPrice ->
+                                        StatsCalculator.findNewestPriceForMarket(cryptoValues)
+                                                .flatMap(newestMarketPrice ->
+                                                        StatsCalculator.findOldestPriceForMarket(cryptoValues)
+                                                                .map(oldestMarketPrice ->
+                                                                        Measures.of(
+                                                                                newestMarketPrice.getPrice(),
+                                                                                oldestMarketPrice.getPrice(),
+                                                                                minMarketPrice.getPrice(),
+                                                                                maxMarketPrice.getPrice()
+                                                                        )))));
+
     }
 }

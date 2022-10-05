@@ -6,7 +6,7 @@ import lombok.Value;
 import java.math.BigDecimal;
 
 @Value
-@RequiredArgsConstructor
+@RequiredArgsConstructor(staticName = "of")
 public class Measures {
 
     BigDecimal newest;

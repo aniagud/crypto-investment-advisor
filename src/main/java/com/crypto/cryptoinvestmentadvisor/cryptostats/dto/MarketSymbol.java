@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @Value
-@RequiredArgsConstructor
+@RequiredArgsConstructor(staticName = "of")
 public class MarketSymbol {
 
     String symbol;
