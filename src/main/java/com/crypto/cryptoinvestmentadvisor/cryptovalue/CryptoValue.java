@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CryptoValue {
 
-    public String crypto;
     public Long timestamp;
     public String symbol;
     public BigDecimal price;
