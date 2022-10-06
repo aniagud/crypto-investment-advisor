@@ -1,5 +1,6 @@
-package com.crypto.cryptoinvestmentadvisor.cryptostats;
+package com.crypto.cryptoinvestmentadvisor;
 
+import com.crypto.cryptoinvestmentadvisor.cryptostats.StatsProcessor;
 import com.crypto.cryptoinvestmentadvisor.cryptostats.dto.Instruments;
 import com.crypto.cryptoinvestmentadvisor.cryptostats.dto.MarketSymbol;
 import com.crypto.cryptoinvestmentadvisor.cryptostats.dto.Measures;
@@ -27,7 +28,7 @@ public class CryptoStatsResource {
     public ResponseEntity<Measures> getMeasuresByCrypto(@PathVariable("market") String market) {
         return statsProcessor.getMeasures(market)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)    .build());
     }
 
     @GetMapping("/best-for-day")
